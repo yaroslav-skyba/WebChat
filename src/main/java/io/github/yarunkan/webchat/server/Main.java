@@ -15,7 +15,7 @@ public class Main {
 
     public void start() throws IOException {
         final HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
-        server.createContext("/WebChat/", exchange -> {
+        server.createContext("/", exchange -> {
             final String requestMethod = exchange.getRequestMethod();
             final Headers requestHeaders = exchange.getRequestHeaders();
             final String message;
