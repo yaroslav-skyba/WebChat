@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>The Web Chat</title>
+    </head>
+
+    <body onload="setUserId()">
+        <script>
+            let userName = null;
+            let httpMethod = null;
+
+            function setUserName() {
+                if (userName == null) {
+                    userName = document.getElementById("userName").value;
+
+                    if (userName === "") {
+                        userName = null;
+                        alert("Your user name can not be empty");
+
+                        return;
+                    }
+
+                    alert("Your user name was successfully set");
+                    return;
+                }
+
+                alert("Your user name has already been set");
+            }
+
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function() {
+                function setMessage(message) {
+                    const pResponse = document.createElement("p");
+                    const textNodeResponse = document.createTextNode(message);
+                    pResponse.appendChild(textNodeResponse);
+
+                    const responses = document.getElementById("responses");
+                    responses.appendChild(pResponse);
+                }
+
+                if (this.readyState === 4 && this.status === 200) {
+                    if (httpMethod === "POST") {
+                        setMessage(this.responseText);
+                    } else if (httpMethod === "GET") {
+                        const response = this.responseText.split("\n");
+
+                        if (response.length === 1) {
+                            setMessage(response[0]);
+                        } else {
+                            sessionStorage.setItem("id", response[0]);
+
+                            for (let i = 1; i < response.length; i++) {
+                                setMessage(response[i]);
+                            }
+                        }
+                    }
+                }
+            };
+
+            function sendMessage() {
+                const userMessage = document.getElementById("userMessage").value;
+
+                if (userName == null || userMessage === "") {
+                    alert("Your user name or message was not set yet");
+                    return;
+                }
+
+                const POSTMethod = "POST";
+                httpMethod = POSTMethod;
+
+                httpRequest.open(POSTMethod, "http://localhost/", true);
+                httpRequest.send(userName + ": " + userMessage);
+            }
+
+            function setUserId() {
+                const id = sessionStorage.getItem("id");
+
+                if (id == null) {
+                    const GETMethod = "GET";
+                    httpMethod = GETMethod;
+
+                    httpRequest.open(GETMethod, "http://localhost?id=unknown", true);
+                    httpRequest.send();
+                }
+            }
+
+            function getMessage(getMessage) {
+                setTimeout(getMessage, 1000);
+            }
+
+            getMessage(function() {
+                const GETMethod = "GET";
+                httpMethod = GETMethod;
+
+                httpRequest.open(GETMethod, "http://localhost?id=" + sessionStorage.getItem("id"), true);
+                httpRequest.send();
+            });
+        </script>
+
+        <label>Your name<br><input id="userName" style="width:50%"></label>
+        <input type="button" onclick="setUserName()" value="Set"><br><br><br><br>
+
+        <div id="responses"></div>
+
+        <label>Your message<br><input id="userMessage" style="width:50%"></label>
+        <input type="button" onclick="sendMessage()" value="Send">
+    </body>
+</html>
