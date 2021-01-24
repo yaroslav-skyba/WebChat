@@ -70,7 +70,9 @@
                 const POSTMethod = "POST";
                 httpMethod = POSTMethod;
 
-                httpRequest.open(POSTMethod, "http://localhost/", true);
+                const id = sessionStorage.getItem("id");
+
+                httpRequest.open(POSTMethod, "http://localhost?id=" + id, true);
                 httpRequest.send(userName + ": " + userMessage);
             }
 
@@ -86,17 +88,17 @@
                 }
             }
 
-            function getMessage(getMessage) {
-                setTimeout(getMessage, 1000);
-            }
-
-            getMessage(function() {
+            setInterval(function() {
                 const GETMethod = "GET";
                 httpMethod = GETMethod;
 
-                httpRequest.open(GETMethod, "http://localhost?id=" + sessionStorage.getItem("id"), true);
-                httpRequest.send();
-            });
+                const id = sessionStorage.getItem("id");
+
+                if (id != null) {
+                    httpRequest.open(GETMethod, "http://localhost?id=" + id, true);
+                    httpRequest.send();
+                }
+            }, 1000);
         </script>
 
         <label>Your name<br><input id="userName" style="width:50%"></label>
