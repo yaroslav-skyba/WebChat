@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,11 +19,12 @@ import java.util.Set;
 
 public class Main {
     private final List<Map<String, String>> messageList = new ArrayList<>();
-    private final List<String> clientIdList = new ArrayList<>();
+    private final Collection<String> clientIdCollection = new ArrayList<>();
     private Map<String, Boolean> isMessageSentMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
-        new Main().start();
+        final Main main = new Main();
+        main.start();
     }
 
     public void start() throws IOException {
@@ -73,9 +75,11 @@ public class Main {
     @NotNull
     private String getRequestBody(HttpExchange exchange) throws IOException {
         final String message;
+
         try (InputStream requestBodyInput = exchange.getRequestBody()) {
             message = new String(requestBodyInput.readAllBytes());
         }
+
         return message;
     }
 
@@ -103,7 +107,7 @@ public class Main {
         System.out.println(message);
 
         isMessageSentMap = new HashMap<>();
-        for (String clientId : clientIdList) {
+        for (String clientId : clientIdCollection) {
             isMessageSentMap.put(clientId, false);
         }
         isMessageSentMap.put(id, true);
@@ -115,10 +119,10 @@ public class Main {
         final String id = parsedQueryMap.get("id");
 
         if (id.equals("unknown")) {
-            final int clientIdListSize = clientIdList.size();
+            final int clientIdListSize = clientIdCollection.size();
             final String currentUserId = Integer.toString(clientIdListSize);
 
-            clientIdList.add(currentUserId);
+            clientIdCollection.add(currentUserId);
 
             response = new StringBuilder(currentUserId + "\n");
 
