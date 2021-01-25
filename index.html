@@ -100,7 +100,7 @@
 
                 const id = sessionStorage.getItem("id");
 
-                httpRequest.open(POSTMethod, "176.36.119.105?id=" + id, true);
+                httpRequest.open(POSTMethod, "http://176.36.119.105?id=" + id, true);
                 httpRequest.send(userName + ": " + userMessage);
 
                 document.getElementById("userMessage").value = "";
@@ -113,7 +113,7 @@
                     const GETMethod = "GET";
                     httpMethod = GETMethod;
 
-                    httpRequest.open(GETMethod, "176.36.119.105?id=unknown", true);
+                    httpRequest.open(GETMethod, "http://176.36.119.105?id=unknown", true);
                     httpRequest.send();
                 }
             }
@@ -125,7 +125,7 @@
                 const id = sessionStorage.getItem("id");
 
                 if (id != null) {
-                    httpRequest.open(GETMethod, "176.36.119.105?id=" + id, true);
+                    httpRequest.open(GETMethod, "http://176.36.119.105?id=" + id, true);
                     httpRequest.send();
                 }
             }, 1000);
