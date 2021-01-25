@@ -47,7 +47,7 @@ public class Main {
         server.setExecutor(null);
         server.start();
 
-        System.out.println("The server is started on port 80");
+        System.out.println("The server is started on port 8080");
     }
 
     private String processRequest(HttpExchange exchange, String requestMethod, String message) {
@@ -85,7 +85,7 @@ public class Main {
 
     private void getResponseHeaders(HttpExchange exchange) {
         final Headers responseHeaders = exchange.getResponseHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "http://www.webchat.tk/");
+        responseHeaders.add("Access-Control-Allow-Origin", "http://www.webchat.tk");
     }
 
     private void sendResponseHeaders(HttpExchange exchange, String message) throws IOException {
