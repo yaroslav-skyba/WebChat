@@ -6,7 +6,7 @@
         <title>The Web Chat</title>
     </head>
 
-    <body onload="setUserId(); setUserNameOnLoad(); viewMessages()">
+    <body onload="setUserId(); setUserNameOnLoad(); viewMessages(); setServerIP(); setServerPort()">
         <script>
             let userName = null;
             let httpMethod = null;
@@ -140,6 +140,7 @@
                     return;
                 }
 
+                sessionStorage.setItem("serverIP", serverIP);
                 alert("A server IP address field was successfully set");
             }
 
@@ -151,7 +152,24 @@
                     return;
                 }
 
+                sessionStorage.setItem("serverPort", serverPort);
                 alert("A server port field was successfully set");
+            }
+
+            function setServerIPOnLoad() {
+                const serverIP = sessionStorage.getItem("serverIP");
+
+                if (serverIP != null) {
+                    document.getElementById("serverIP").value = serverIP;
+                }
+            }
+
+            function setServerPortOnLoad() {
+                const serverPort = sessionStorage.getItem("serverPort");
+
+                if (serverPort != null) {
+                    document.getElementById("serverPort").value = serverPort;
+                }
             }
         </script>
 
