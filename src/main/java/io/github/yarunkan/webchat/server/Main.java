@@ -85,7 +85,7 @@ public class Main {
 
     private void getResponseHeaders(HttpExchange exchange) {
         final Headers responseHeaders = exchange.getResponseHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "*");
+        responseHeaders.add("Access-Control-Allow-Origin", "https://yarunkan.github.io/");
     }
 
     private void sendResponseHeaders(HttpExchange exchange, String message) throws IOException {
