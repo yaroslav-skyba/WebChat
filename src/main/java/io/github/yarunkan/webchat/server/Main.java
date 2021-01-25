@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,7 +95,7 @@ public class Main {
 
     private void getResponseBody(HttpExchange exchange, String message) throws IOException {
         try (OutputStream responseBodyOutput = exchange.getResponseBody()) {
-            responseBodyOutput.write(message.getBytes());
+            responseBodyOutput.write(message.getBytes(StandardCharsets.UTF_16));
         }
     }
 
