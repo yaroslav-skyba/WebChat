@@ -29,7 +29,7 @@ public class Main {
 
     public void start() throws IOException {
         final int backlog = 0;
-        final InetSocketAddress serverSocketAddress = new InetSocketAddress(80);
+        final InetSocketAddress serverSocketAddress = new InetSocketAddress(8080);
         final HttpServer server = HttpServer.create(serverSocketAddress, backlog);
 
         server.createContext("/", exchange -> {
@@ -47,7 +47,7 @@ public class Main {
         server.setExecutor(null);
         server.start();
 
-        System.out.println("The server is started on port 80");
+        System.out.println("The server is started on port 8080");
     }
 
     private String processRequest(HttpExchange exchange, String requestMethod, String message) {

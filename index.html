@@ -115,7 +115,7 @@
                     const GETMethod = "GET";
                     httpMethod = GETMethod;
 
-                    httpRequest.open(GETMethod, "http://176.36.119.105?id=unknown", true);
+                    httpRequest.open(GETMethod, "http://176.36.119.105:8080?id=unknown", true);
                     httpRequest.send();
                 }
             }
@@ -127,7 +127,7 @@
                 const id = sessionStorage.getItem("id");
 
                 if (id != null) {
-                    httpRequest.open(GETMethod, "http://176.36.119.105?id=" + id, true);
+                    httpRequest.open(GETMethod, "http://176.36.119.105:8080?id=" + id, true);
                     httpRequest.send();
                 }
             }, 1000);
