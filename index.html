@@ -10,6 +10,8 @@
         <script>
             let userName = null;
             let httpMethod = null;
+            let serverIP = "";
+            let serverPort = "";
 
             function setUserNameOnLoad() {
                 if (sessionStorage.getItem("userName") == null) {
@@ -90,8 +92,8 @@
             function sendMessage() {
                 const userMessage = document.getElementById("userMessage").value;
 
-                if (userName === "" || userMessage === "") {
-                    alert("Your user name or message was not set yet");
+                if (userName === "" || userMessage === "" || serverIP === "" || serverPort === "") {
+                    alert("Your user name or user message or server IP address or server port field was not set yet");
                     return;
                 }
 
@@ -100,10 +102,10 @@
 
                 const id = sessionStorage.getItem("id");
 
-                httpRequest.open(POSTMethod, "http://176.36.119.105:8080?id=" + id, true);
+                httpRequest.open(POSTMethod, "http://" + serverIP + ":" + serverPort + "?id=" + id, true);
                 httpRequest.send(userName + ": " + userMessage);
 
-                //document.getElementById("userMessage").value = "";
+                document.getElementById("userMessage").value = "";
             }
 
             function setUserId() {
@@ -113,7 +115,7 @@
                     const GETMethod = "GET";
                     httpMethod = GETMethod;
 
-                    httpRequest.open(GETMethod, "http://176.36.119.105:8080?id=unknown", true);
+                    httpRequest.open(GETMethod, "http://" + serverIP + ":" + serverPort + "?id=unknown", true);
                     httpRequest.send();
                 }
             }
@@ -129,10 +131,38 @@
                     httpRequest.send();
                 }
             }, 1000);
+
+            function setServerIP() {
+                serverIP = document.getElementById("serverIP").value;
+
+                if (serverIP === "") {
+                    alert("A server IP address field can not be empty");
+                    return;
+                }
+
+                alert("A server IP address field was successfully set");
+            }
+
+            function setServerPort() {
+                serverPort = document.getElementById("serverPort").value;
+
+                if (serverIP === "") {
+                    alert("A server port field can not be empty");
+                    return;
+                }
+
+                alert("A server port field was successfully set");
+            }
         </script>
 
         <label>Your name<br><input id="userName" style="width:50%"></label>
-        <input type="button" onclick="setUserName()" value="Set"><br><br><br><br>
+        <input type="button" onclick="setUserName()" value="Set"><br><br>
+
+        <label>A server IP address<br><input id="serverIP" style="width:50%"></label>
+        <input type="button" onclick="setServerIP()" value="Set"><br><br>
+
+        <label>A server port<br><input id="serverPort" style="width:50%"></label>
+        <input type="button" onclick="setServerPort()" value="Set"><br><br><br><br>
 
         <div id="responses"></div>
 
