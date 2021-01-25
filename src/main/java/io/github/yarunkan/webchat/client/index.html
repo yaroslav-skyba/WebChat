@@ -21,8 +21,12 @@
             }
 
             function viewMessages() {
-                for (let i = 0; i < JSON.parse(sessionStorage.getItem("messages")).length; i++) {
-                    setMessage(JSON.parse(sessionStorage.getItem("messages"))[i]);
+                const parsedMessages = JSON.parse(sessionStorage.getItem("messages"));
+
+                if (parsedMessages != null) {
+                    for (let i = 0; i < parsedMessages.length; i++) {
+                        setMessage(parsedMessages[i]);
+                    }
                 }
             }
 
