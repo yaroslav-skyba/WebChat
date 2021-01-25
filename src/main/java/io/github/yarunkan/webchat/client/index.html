@@ -6,53 +6,77 @@
         <title>The Web Chat</title>
     </head>
 
-    <body onload="setUserId()">
+    <body onload="setUserId(); setUserNameOnLoad(); viewMessages()">
         <script>
             let userName = null;
             let httpMethod = null;
 
+            function setUserNameOnLoad() {
+                if (sessionStorage.getItem("userName") == null) {
+                    sessionStorage.setItem("userName", "");
+                }
+
+                document.getElementById("userName").value = sessionStorage.getItem("userName");
+                userName = sessionStorage.getItem("userName");
+            }
+
+            function viewMessages() {
+                for (let i = 0; i < JSON.parse(sessionStorage.getItem("messages")).length; i++) {
+                    setMessage(JSON.parse(sessionStorage.getItem("messages"))[i]);
+                }
+            }
+
             function setUserName() {
-                if (userName == null) {
-                    userName = document.getElementById("userName").value;
+                userName = document.getElementById("userName").value;
 
-                    if (userName === "") {
-                        userName = null;
-                        alert("Your user name can not be empty");
-
-                        return;
-                    }
-
-                    alert("Your user name was successfully set");
+                if (userName === "") {
+                    alert("Your user name can not be empty");
                     return;
                 }
 
-                alert("Your user name has already been set");
+                sessionStorage.setItem("userName", userName);
+                alert("Your user name was successfully set");
+            }
+
+            function setMessage(message) {
+                const pResponse = document.createElement("p");
+                const textNodeResponse = document.createTextNode(message);
+                pResponse.appendChild(textNodeResponse);
+
+                const responses = document.getElementById("responses");
+                responses.appendChild(pResponse);
             }
 
             const httpRequest = new XMLHttpRequest();
             httpRequest.onreadystatechange = function() {
-                function setMessage(message) {
-                    const pResponse = document.createElement("p");
-                    const textNodeResponse = document.createTextNode(message);
-                    pResponse.appendChild(textNodeResponse);
-
-                    const responses = document.getElementById("responses");
-                    responses.appendChild(pResponse);
+                function saveMessage(message) {
+                    if (sessionStorage.getItem("messages") == null) {
+                        const messages = [];
+                        messages[0] = message;
+                        sessionStorage.setItem("messages", JSON.stringify(messages));
+                    } else {
+                        const messages = JSON.parse(sessionStorage.getItem("messages"));
+                        messages[messages.length] = message;
+                        sessionStorage.setItem("messages", JSON.stringify(messages));
+                    }
                 }
 
-                if (this.readyState === 4 && this.status === 200) {
+                if (this.readyState === 4 && this.status === 200 && this.responseText !== "") {
                     if (httpMethod === "POST") {
                         setMessage(this.responseText);
+                        saveMessage(this.responseText);
                     } else if (httpMethod === "GET") {
                         const response = this.responseText.split("\n");
 
                         if (response.length === 1) {
                             setMessage(response[0]);
+                            saveMessage(response[0]);
                         } else {
                             sessionStorage.setItem("id", response[0]);
 
                             for (let i = 1; i < response.length; i++) {
                                 setMessage(response[i]);
+                                saveMessage(response[i]);
                             }
                         }
                     }
@@ -62,7 +86,7 @@
             function sendMessage() {
                 const userMessage = document.getElementById("userMessage").value;
 
-                if (userName == null || userMessage === "") {
+                if (userName === "" || userMessage === "") {
                     alert("Your user name or message was not set yet");
                     return;
                 }
@@ -74,6 +98,8 @@
 
                 httpRequest.open(POSTMethod, "http://localhost?id=" + id, true);
                 httpRequest.send(userName + ": " + userMessage);
+
+                document.getElementById("userMessage").value = "";
             }
 
             function setUserId() {
