@@ -29,7 +29,7 @@ public class Main {
 
     public void start() throws IOException {
         final int backlog = 0;
-        final InetSocketAddress serverSocketAddress = new InetSocketAddress(80);
+        final InetSocketAddress serverSocketAddress = new InetSocketAddress(8080);
         final HttpServer server = HttpServer.create(serverSocketAddress, backlog);
 
         server.createContext("/", exchange -> {
@@ -85,7 +85,7 @@ public class Main {
 
     private void getResponseHeaders(HttpExchange exchange) {
         final Headers responseHeaders = exchange.getResponseHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "https://yarunkan.github.io/WebChat/");
+        responseHeaders.add("Access-Control-Allow-Origin", "http://www.webchat.tk/");
     }
 
     private void sendResponseHeaders(HttpExchange exchange, String message) throws IOException {
