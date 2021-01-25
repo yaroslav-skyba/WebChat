@@ -90,12 +90,12 @@ public class Main {
     }
 
     private void sendResponseHeaders(HttpExchange exchange, String message) throws IOException {
-        exchange.sendResponseHeaders(200, message.length());
+        exchange.sendResponseHeaders(200, message.length() * 2L);
     }
 
     private void getResponseBody(HttpExchange exchange, String message) throws IOException {
         try (OutputStream responseBodyOutput = exchange.getResponseBody()) {
-            responseBodyOutput.write(message.getBytes(StandardCharsets.UTF_16LE));
+            responseBodyOutput.write(message.getBytes());
         }
     }
 
