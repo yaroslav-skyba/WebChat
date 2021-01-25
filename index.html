@@ -157,20 +157,20 @@
             }
 
             function setServerIPOnLoad() {
-                const serverIP = sessionStorage.getItem("serverIP");
+                const ip = sessionStorage.getItem("serverIP");
 
-                if (serverIP != null) {
-                    document.getElementById("serverIP").value = serverIP;
-                    this.serverIP = serverIP;
+                if (ip != null) {
+                    document.getElementById("serverIP").value = ip;
+                    serverIP = ip;
                 }
             }
 
             function setServerPortOnLoad() {
-                const serverPort = sessionStorage.getItem("serverPort");
+                const port = sessionStorage.getItem("serverPort");
 
-                if (serverPort != null) {
-                    document.getElementById("serverPort").value = serverPort;
-                    this.serverPort = serverPort;
+                if (port != null) {
+                    document.getElementById("serverPort").value = port;
+                    serverPort = port;
                 }
             }
         </script>
