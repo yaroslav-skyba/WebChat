@@ -95,7 +95,7 @@ public class Main {
 
     private void getResponseBody(HttpExchange exchange, String message) throws IOException {
         try (OutputStream responseBodyOutput = exchange.getResponseBody()) {
-            responseBodyOutput.write(message.getBytes());
+            responseBodyOutput.write(message.getBytes(StandardCharsets.UTF_16));
         }
     }
 
